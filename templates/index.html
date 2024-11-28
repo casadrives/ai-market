@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Content Generation Service</title>
+    <script src="https://js.stripe.com/v3/"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body class="bg-gradient-to-r from-blue-50 to-indigo-100 min-h-screen">
+    <div class="flex flex-col h-full">
+        <nav class="bg-white shadow-lg">
+            <div class="max-w-6xl mx-auto px-4">
+                <div class="flex justify-between">
+                    <div class="flex space-x-7">
+                        <div>
+                            <a href="#" class="flex items-center py-4">
+                                <span class="font-semibold text-indigo-600 text-lg">AI Content Generator</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <div class="container mx-auto px-4 py-8 flex-grow">
+            <div class="max-w-2xl mx-auto bg-white rounded-lg shadow-md p-6">
+                <h1 class="text-3xl font-bold mb-6 text-center text-indigo-700">Generate AI Content</h1>
+                
+                <div class="mb-8">
+                    <div class="mb-4">
+                        <label for="topic" class="block text-gray-700 text-sm font-bold mb-2">Topic</label>
+                        <input type="text" id="topic" placeholder="Enter a topic..." class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label for="type" class="block text-gray-700 text-sm font-bold mb-2">Content Type</label>
+                        <select id="type" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                            <option value="blog post">Blog Post</option>
+                            <option value="article">Article</option>
+                            <option value="social media post">Social Media Post</option>
+                        </select>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <label for="length" class="block text-gray-700 text-sm font-bold mb-2">Word Count</label>
+                        <input type="number" id="length" value="500" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                    </div>
+
+                    <button onclick="generateContent()" class="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full">
+                        Generate Content
+                    </button>
+                </div>
+
+                <div id="result" class="mt-6 p-4 bg-gray-50 rounded-lg hidden">
+                    <h2 class="text-lg font-semibold mb-2">Generated Content:</h2>
+                    <div id="content" class="text-gray-700 whitespace-pre-wrap"></div>
+                </div>
+
+                <div class="mt-8 text-center">
+                    <h2 class="text-xl font-bold mb-4 text-indigo-700">Subscribe for Unlimited Access</h2>
+                    <p class="mb-4 text-gray-600">Only $20/month for unlimited content generation</p>
+                    <button onclick="subscribe()" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                        Subscribe Now
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        async function generateContent() {
+            const topic = document.getElementById('topic').value;
+            const type = document.getElementById('type').value;
+            const length = parseInt(document.getElementById('length').value);
+
+            try {
+                const response = await fetch('/generate', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ topic, type, length }),
+                });
+
+                const data = await response.json();
+                document.getElementById('content').textContent = data.content;
+                document.getElementById('result').classList.remove('hidden');
+            } catch (error) {
+                alert('Error generating content. Please try again.');
+            }
+        }
+
+        async function subscribe() {
+            try {
+                const response = await fetch('/create-checkout-session', {
+                    method: 'POST',
+                });
+                const data = await response.json();
+                window.location.href = data.url;
+            } catch (error) {
+                alert('Error creating checkout session. Please try again.');
+            }
+        }
+    </script>
+</body>
+</html>
