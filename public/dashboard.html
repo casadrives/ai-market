@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AdGenius AI - Dashboard</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="dashboard-page">
+    <nav class="dashboard-nav">
+        <div class="logo">AdGenius AI</div>
+        <div class="nav-links">
+            <a href="#" class="active">Dashboard</a>
+            <a href="#ads">My Ads</a>
+            <a href="#analytics">Analytics</a>
+            <a href="#settings">Settings</a>
+        </div>
+        <div class="user-menu">
+            <div id="userInfo"></div>
+            <button id="logoutBtn">Logout</button>
+        </div>
+    </nav>
+
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <div class="quick-actions">
+                <button id="newAdBtn" class="primary-btn">
+                    <i class="fas fa-plus"></i> Create New Ad
+                </button>
+            </div>
+            <div class="menu-items">
+                <a href="#overview" class="active">
+                    <i class="fas fa-home"></i> Overview
+                </a>
+                <a href="#campaigns">
+                    <i class="fas fa-bullhorn"></i> Campaigns
+                </a>
+                <a href="#performance">
+                    <i class="fas fa-chart-line"></i> Performance
+                </a>
+                <a href="#billing">
+                    <i class="fas fa-credit-card"></i> Billing
+                </a>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <section id="statsOverview" class="stats-section">
+                <!-- Stats will be populated by JavaScript -->
+            </section>
+
+            <section class="ads-section">
+                <div class="section-header">
+                    <h2>My Advertisements</h2>
+                    <div class="filters">
+                        <select id="adFilter">
+                            <option value="all">All Ads</option>
+                            <option value="active">Active</option>
+                            <option value="paused">Paused</option>
+                            <option value="draft">Drafts</option>
+                        </select>
+                        <select id="adSort">
+                            <option value="newest">Newest First</option>
+                            <option value="oldest">Oldest First</option>
+                            <option value="performance">Best Performing</option>
+                        </select>
+                    </div>
+                </div>
+                <div id="adsList" class="ads-grid">
+                    <!-- Ads will be populated by JavaScript -->
+                </div>
+            </section>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="performance-summary">
+                <h3>Performance Summary</h3>
+                <div class="chart-container">
+                    <!-- Add charts/graphs here -->
+                </div>
+            </div>
+            <div class="recent-activity">
+                <h3>Recent Activity</h3>
+                <div id="activityFeed">
+                    <!-- Activity feed will be populated by JavaScript -->
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <!-- New Ad Modal -->
+    <div id="newAdModal" class="modal">
+        <div class="modal-content">
+            <h2>Create New Advertisement</h2>
+            <form id="newAdForm">
+                <div class="form-group">
+                    <label for="adTitle">Title</label>
+                    <input type="text" id="adTitle" required>
+                </div>
+                <div class="form-group">
+                    <label for="adType">Type</label>
+                    <select id="adType" required>
+                        <option value="social">Social Media</option>
+                        <option value="display">Display Ad</option>
+                        <option value="search">Search Ad</option>
+                        <option value="video">Video Ad</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="adDescription">Description</label>
+                    <textarea id="adDescription" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" id="useAI" checked>
+                        Use AI to generate content
+                    </label>
+                </div>
+                <div class="form-actions">
+                    <button type="button" onclick="dashboard.hideNewAdModal()">Cancel</button>
+                    <button type="submit" class="primary-btn">Create Ad</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Notification -->
+    <div id="notification" class="notification"></div>
+
+    <script src="js/dashboard.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</body>
+</html>
